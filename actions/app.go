@@ -44,6 +44,7 @@ func App() *buffalo.App {
 		app = buffalo.New(buffalo.Options{
 			Env:         ENV,
 			SessionName: "_prefix_test_session",
+			Prefix:      "/prefix",
 		})
 
 		// Automatically redirect to SSL
