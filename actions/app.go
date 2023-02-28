@@ -76,6 +76,8 @@ func App() *buffalo.App {
 		subg1 := g1.Group("subg")
 		subg1.GET("func3", About)
 
+		app.Resource("/base-res", &buffalo.BaseResource{})
+
 		app.ServeFiles("/", http.FS(public.FS())) // serve files from the public directory
 	})
 
