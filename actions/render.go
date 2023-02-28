@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"github.com/gobuffalo/buffalo"
 	"prefix_test/public"
 	"prefix_test/templates"
 
@@ -9,7 +10,7 @@ import (
 
 var r *render.Engine
 
-func init() {
+func InitRender(o buffalo.Options) {
 	r = render.New(render.Options{
 		// HTML layout to be used for all HTML requests:
 		HTMLLayout: "application.plush.html",
@@ -27,5 +28,7 @@ func init() {
 			// forms.FormKey:     forms.Form,
 			// forms.FormForKey:  forms.FormFor,
 		},
+
+		Prefix: o.Prefix,
 	})
 }

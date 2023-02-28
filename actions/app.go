@@ -2,10 +2,8 @@ package actions
 
 import (
 	"net/http"
-	"sync"
-
-	"prefix_test/locales"
 	"prefix_test/public"
+	"sync"
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/envy"
@@ -14,6 +12,7 @@ import (
 	i18n "github.com/gobuffalo/mw-i18n/v2"
 	paramlogger "github.com/gobuffalo/mw-paramlogger"
 	"github.com/unrolled/secure"
+	"prefix_test/locales"
 )
 
 // ENV is used to help switch settings based on where the
@@ -62,11 +61,25 @@ func App() *buffalo.App {
 
 		app.GET("/", HomeHandler)
 
-		// Add API for about info
 		app.GET("/about/", About)
+		app.GET("/prefix/about/", About)
+
+		h1 := app.VirtualHost("h1.com")
+		h1.GET("/func1", VirtualHost1About)
+
+		h2 := app.VirtualHost("h2.com")
+		h2.GET("/func1", VirtualHost2About)
+
+		g1 := app.Group("/group/")
+		g1.GET("func2", About)
+
+		subg1 := g1.Group("subg")
+		subg1.GET("func3", About)
 
 		app.ServeFiles("/", http.FS(public.FS())) // serve files from the public directory
 	})
+
+	InitRender(app.Options)
 
 	return app
 }
